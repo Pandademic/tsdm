@@ -50,15 +50,17 @@ func main() {
 
          AVAILABLE COMMANDS:
 
-         - help
+         - help <- show this help message
 
-         - -h
+         - -h <- show this help message
 
-         - version
+         - version <- show the version number of tsdm
 
-         - -v 
+         - -v <- show the version number of tsdm
         
-         - setup
+         - setup <- setup the tsdm directory structure
+
+         - get <- get a dotfile repo to store in your tsdm directory.Note that this will replace the current repo.
 
   `
 	UserHomeDir, _ = os.UserHomeDir()
