@@ -41,6 +41,28 @@ func getRepo() {
 		os.Exit(1)
 	}
 }
+func updateDots() {
+  repoDir := UserTsdmDir+string(os.PathSeparator)+"dotfile-repo"
+  os.Chdir(repoDir)
+  r , err := git.PlainOpen(repoDir)
+  if err != nil {
+    fmt.Println("Fatal: ",err)
+    os.Exit(1)
+  }
+  w , err := r.Worktree()
+  if err != nil {
+    fmt.Println("Fatal:", err)
+    os.Exit(1)
+  }
+  err = w.Pull(&git.PullOptions{RemoteName: "origin"})
+  if err != nil{
+    fmt.Println("Fatal:", err)
+    os.Exit(1)
+  }else{
+    fmt.Println("updated repo sucessfully!")
+    os.Exit(0)
+  }
+}
 func main() {
 	help := `
            TSDM HELP 
@@ -66,11 +88,12 @@ func main() {
 	UserHomeDir, _ = os.UserHomeDir()
 	UserTsdmDir = UserHomeDir + string(os.PathSeparator) + ".tsdm"
 	cli := raspberry.Cli{
-		AcceptedCommands: []string{"-v", "version", "-h", "help", "setup", "get"},
+		AcceptedCommands: []string{"-v", "version", "-h", "help", "setup", "get","update"},
 		HelpMsg:          help,
 		Version:          0.1,
 	}
 	cli.Setup()
 	cli.SetHandler("setup", setupDirs)
 	cli.SetHandler("get", getRepo)
+  cli.SetHandler("update",updateDots)
 }
