@@ -1,0 +1,12 @@
+# generated builds should not end up in git
+bin/*
+
+# IDE/emacs files. Guess someone someday might use these?
+.idea/
+.vscode/
+*~
+\#*\#
+.\#*
+
+# these pop up everewhere and theyre anoyying
+.DS_Store
