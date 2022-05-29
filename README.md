@@ -1,4 +1,5 @@
 # tsdm
+[![Go Report Card](https://goreportcard.com/badge/github.com/pandademic/tsdm)](https://goreportcard.com/report/github.com/pandademic/tsdm)
 The Simple Dotfile Manager. 
 
 ## Architecture
@@ -33,3 +34,16 @@ windows: # OS block. The following instructions will only be executed on this OS
 # etc. OS blocks
 
 ```
+## Commands
+There are a few commands in tsdm:
+- `-h` <- show help. Accepts: nothing
+- `help` <- show help. Accepts: nothing
+- `-v` <- show the tsdm version. Accepts: nothing
+- `version` <- show the tsdm version. Accepts: nothing
+- `update` <- run a git pull on the current dotfiles. Accepts: nothing
+- `get` <- get a new set of dotfiles , replacing the old one.Accepts: A URL including https.Ex:`https://github.com/pandademic/tsdm-example`
+- `sync` <- sync the dotfiles to the correct locations. Accepts: nothing
+
+## Licence
+
+[MIT](https://github.com/Pandademic/tsdm/blob/main/LICENSE)
