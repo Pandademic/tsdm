@@ -5,12 +5,18 @@ import (
 	"github.com/Pandademic/luve"
 	"github.com/go-git/go-git/v5"
 	"github.com/pandademic/raspberry"
+	"github.com/spf13/viper"
+	"io"
+	"io/ioutil"
 	"os"
+	"runtime"
+	"strings"
 )
 
 var (
 	UserHomeDir string
 	UserTsdmDir string
+	version     float64
 )
 
 func setupDirs() {
@@ -42,26 +48,91 @@ func getRepo() {
 	}
 }
 func updateDots() {
-  repoDir := UserTsdmDir+string(os.PathSeparator)+"dotfile-repo"
-  os.Chdir(repoDir)
-  r , err := git.PlainOpen(repoDir)
-  if err != nil {
-    fmt.Println("Fatal: ",err)
-    os.Exit(1)
-  }
-  w , err := r.Worktree()
-  if err != nil {
-    fmt.Println("Fatal:", err)
-    os.Exit(1)
-  }
-  err = w.Pull(&git.PullOptions{RemoteName: "origin"})
-  if err != nil{
-    fmt.Println("Fatal:", err)
-    os.Exit(1)
-  }else{
-    fmt.Println("updated repo sucessfully!")
-    os.Exit(0)
-  }
+	repoDir := UserTsdmDir + string(os.PathSeparator) + "dotfile-repo"
+	os.Chdir(repoDir)
+	r, err := git.PlainOpen(repoDir)
+	if err != nil {
+		fmt.Println("Fatal: ", err)
+		os.Exit(1)
+	}
+	w, err := r.Worktree()
+	if err != nil {
+		fmt.Println("Fatal:", err)
+		os.Exit(1)
+	}
+	err = w.Pull(&git.PullOptions{RemoteName: "origin"})
+	if err != nil {
+		fmt.Println("Fatal:", err)
+		os.Exit(1)
+	} else {
+		fmt.Println("updated repo sucessfully!")
+		os.Exit(0)
+	}
+}
+
+type mytype struct {
+	Name     string `maspstructure:"name"`
+	Location string `mapstructure:"location"`
+}
+
+func syncFiles() {
+	repoDir := UserTsdmDir + string(os.PathSeparator) + "dotfile-repo"
+	os.Chdir(repoDir)
+
+	viper.SetConfigName("tsdmrc")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath(".")
+	err := viper.ReadInConfig()
+	if err != nil {
+		fmt.Println("Fatal:", err)
+		os.Exit(1)
+	}
+
+	files, err := ioutil.ReadDir(".")
+	if err != nil {
+		fmt.Println("Fatal: ", err)
+		os.Exit(1)
+	}
+	requiredVersion := viper.GetFloat64("reqVer")
+	if requiredVersion != version {
+		fmt.Println("Fatal: These dotfiles are meant for tsdm ", requiredVersion, " but you are using tsdm ", version)
+		os.Exit(1)
+	}
+	o_s := runtime.GOOS
+	for _, file := range files {
+		luve.Luve(o_s, file) // for now
+		filesParsed := make(map[string]mytype)
+		err = viper.UnmarshalKey(o_s+".files", &filesParsed)
+		if err != nil {
+			panic(err)
+		}
+		fileName := filesParsed[file.Name()].Name
+		fileLoc := filesParsed[file.Name()].Location
+		if fileName != "" || fileLoc != "" {
+			fmt.Println("Copying", fileName, "to", fileLoc)
+			fileLoc = strings.Replace(fileLoc, "~", UserHomeDir, -1)
+			original, err := os.Open(file.Name())
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+			defer original.Close()
+
+			new, err := os.Create(fileLoc)
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+			defer new.Close()
+			b, err := io.Copy(new, original)
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+			luve.Luve(b)
+			fmt.Println("copied!")
+		}
+	}
 }
 func main() {
 	help := `
@@ -85,15 +156,17 @@ func main() {
          - get <- get a dotfile repo to store in your tsdm directory.Note that this will replace the current repo.
 
   `
+	version = 0.1
 	UserHomeDir, _ = os.UserHomeDir()
 	UserTsdmDir = UserHomeDir + string(os.PathSeparator) + ".tsdm"
 	cli := raspberry.Cli{
-		AcceptedCommands: []string{"-v", "version", "-h", "help", "setup", "get","update"},
+		AcceptedCommands: []string{"-v", "version", "-h", "help", "setup", "get", "update", "sync"},
 		HelpMsg:          help,
-		Version:          0.1,
+		Version:          version,
 	}
 	cli.Setup()
 	cli.SetHandler("setup", setupDirs)
 	cli.SetHandler("get", getRepo)
-  cli.SetHandler("update",updateDots)
+	cli.SetHandler("update", updateDots)
+	cli.SetHandler("sync", syncFiles)
 }
