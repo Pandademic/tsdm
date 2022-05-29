@@ -1,0 +1,116 @@
+# Using task(https://taskfile.dev) 
+
+version: '3'
+
+vars:
+  TSDM_VERSION: 1.1
+
+tasks:
+  default:
+    cmds:
+      - echo "Good Evening!"
+    silent: true
+  tidyup:
+    desc: Clean up the code and modfile
+    cmds:
+      - go mod tidy
+      - go fmt
+    silent: true
+  windows-amd64: 
+    desc: build for amd64 windows
+    env:
+      GOOS: "windows"
+      GOARCH: "amd64"
+    cmds:
+      - go build -o bin/tsdm-{{.TSDM_VERSION}}-windows-amd64.exe
+    silent: true
+  windows-arm:
+    desc: build for arm windows
+    env:
+      GOOS: "windows"
+      GOARCH: "arm"
+    cmds:
+      - go build -o bin/tsdm-{{.TSDM_VERSION}}-windows-arm.exe
+    silent: true
+  windows-arm64:
+    desc: build for arm64 windows
+    env:
+      GOOS: "windows"
+      GOARCH: "arm64"
+    cmds:
+      - go build -o bin/tsdm-{{.TSDM_VERSION}}-windows-arm64.exe
+    silent: true
+  linux-amd64:
+    desc: build for amd64 linux
+    env:
+      GOOS: "linux"
+      GOARCH: "amd64"
+    cmds:
+      - go build -o bin/tsdm-{{.TSDM_VERSION}}-linux-amd64.exe
+    silent: true
+  linux-arm:
+    desc: build for arm linux
+    env:
+      GOOS: "linux"
+      GOARCH: "arm"
+    cmds:
+      - go build -o bin/tsdm-{{.TSDM_VERSION}}-linux-arm.exe
+    silent: true
+  linux-arm64:
+    desc: build for arm64 linux
+    env:
+      GOOS: "linux"
+      GOARCH: "arm64"
+    cmds:
+      - go build -o bin/tsdm-{{.TSDM_VERSION}}-linux-arm64.exe
+    silent: true
+  mac-amd64:
+    desc: build for amd64 mac
+    env:
+      GOOS: "darwin"
+      GOARCH: "amd64"
+    cmds:
+      - go build -o bin/tsdm-{{.TSDM_VERSION}}-mac-amd64.exe
+    silent: true
+  mac-arm:
+    desc: build for arm mac
+    env:
+      GOOS: "darwin"
+      GOARCH: "arm"
+    cmds:
+      - go build -o bin/tsdm-{{.TSDM_VERSION}}-mac-arm.exe
+    silent: true
+  mac-arm64:
+    desc: build for arm64 mac
+    env:
+      GOOS: "darwin"
+      GOARCH: "arm64"
+    cmds:
+      - go build -o bin/tsdm-{{.TSDM_VERSION}}-mac-arm64.exe
+    silent: true
+  resetenv:
+    desc: remind the user to reset the env variables
+    cmds:
+      - echo 'remember to reset the env variables'
+  buildall:
+    desc: build for all supported targets
+    cmds:
+      - task windows-amd64
+      - task windows-arm
+      - task windows-arm64
+      - task linux-amd64
+      - task linux-arm
+      - task linux-arm64
+      - task mac-amd64
+      - task mac-arm
+      - task mac-arm64
+      - task resetenv
+  clean:
+    desc: clean up enviorment
+    cmds:
+       - rmdir -force bin
+  release:
+    desc: setup for a release
+    cmds:
+      - task tidyup
+      - task buildall
