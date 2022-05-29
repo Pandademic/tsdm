@@ -1,5 +1,6 @@
 # tsdm
 [![Go Report Card](https://goreportcard.com/badge/github.com/pandademic/tsdm)](https://goreportcard.com/report/github.com/pandademic/tsdm)
+
 The Simple Dotfile Manager. 
 
 ## Architecture
