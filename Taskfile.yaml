@@ -3,7 +3,7 @@
 version: '3'
 
 vars:
-  TSDM_VERSION: 1.1
+  TSDM_VERSION: 0.1
 
 tasks:
   default:
