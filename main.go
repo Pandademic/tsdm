@@ -155,6 +155,7 @@ func main() {
 
          - get <- get a dotfile repo to store in your tsdm directory.Note that this will replace the current repo.
 
+	- sync <- copy the files in '~/.tsdm/dotfile-repo' to the correct locations
   `
 	version = 0.1
 	UserHomeDir, _ = os.UserHomeDir()
