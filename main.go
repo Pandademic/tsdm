@@ -157,7 +157,7 @@ func main() {
 
 	- sync <- copy the files in '~/.tsdm/dotfile-repo' to the correct locations
   `
-	version = 0.1
+	version = 0.2
 	UserHomeDir, _ = os.UserHomeDir()
 	UserTsdmDir = UserHomeDir + string(os.PathSeparator) + ".tsdm"
 	cli := raspberry.Cli{
