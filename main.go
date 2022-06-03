@@ -2,13 +2,15 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/Pandademic/luve"
 	"github.com/go-git/go-git/v5"
 	"github.com/pandademic/raspberry"
 	"github.com/spf13/viper"
+
 	"io"
-	"io/ioutil"
 	"os"
+	"path/filepath"
 	"runtime"
 	"strings"
 )
@@ -75,6 +77,45 @@ type mytype struct {
 	Location string `mapstructure:"location"`
 }
 
+func syncFilesInternal(path string, file os.FileInfo, err error) error {
+	if err != nil {
+		return err
+	}
+	o_s := runtime.GOOS
+	filesParsed := make(map[string]mytype)
+	err = viper.UnmarshalKey(o_s+".files", &filesParsed)
+	if err != nil {
+		panic(err)
+	}
+	fileName := filesParsed[path].Name
+	fileLoc := filesParsed[path].Location
+	fmt.Println(fileName)
+	if fileName != "" || fileLoc != "" {
+		fmt.Println("Copying", fileName, "to", fileLoc)
+		fileLoc = strings.Replace(fileLoc, "~", UserHomeDir, -1)
+		original, err := os.Open(path)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		defer original.Close()
+
+		new, err := os.Create(fileLoc)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		defer new.Close()
+		b, err := io.Copy(new, original)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		luve.Luve(b)
+		fmt.Println("copied!")
+	}
+	return nil
+}
 func syncFiles() {
 	repoDir := UserTsdmDir + string(os.PathSeparator) + "dotfile-repo"
 	os.Chdir(repoDir)
@@ -87,51 +128,15 @@ func syncFiles() {
 		fmt.Println("Fatal:", err)
 		os.Exit(1)
 	}
-
-	files, err := ioutil.ReadDir(".")
-	if err != nil {
-		fmt.Println("Fatal: ", err)
-		os.Exit(1)
-	}
 	requiredVersion := viper.GetFloat64("reqVer")
 	if requiredVersion != version {
-		fmt.Println("Fatal: These dotfiles are meant for tsdm ", requiredVersion, " but you are using tsdm ", version)
+		fmt.Println("Fatal: These dotfiles are meant for tsdm", requiredVersion, "But you are using", version)
 		os.Exit(1)
 	}
-	o_s := runtime.GOOS
-	for _, file := range files {
-		luve.Luve(o_s, file) // for now
-		filesParsed := make(map[string]mytype)
-		err = viper.UnmarshalKey(o_s+".files", &filesParsed)
-		if err != nil {
-			panic(err)
-		}
-		fileName := filesParsed[file.Name()].Name
-		fileLoc := filesParsed[file.Name()].Location
-		if fileName != "" || fileLoc != "" {
-			fmt.Println("Copying", fileName, "to", fileLoc)
-			fileLoc = strings.Replace(fileLoc, "~", UserHomeDir, -1)
-			original, err := os.Open(file.Name())
-			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
-			}
-			defer original.Close()
 
-			new, err := os.Create(fileLoc)
-			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
-			}
-			defer new.Close()
-			b, err := io.Copy(new, original)
-			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
-			}
-			luve.Luve(b)
-			fmt.Println("copied!")
-		}
+	if err := filepath.Walk(".", syncFilesInternal); err != nil {
+		fmt.Println("Fatal: ", err)
+		os.Exit(1)
 	}
 }
 func main() {
