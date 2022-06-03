@@ -46,7 +46,7 @@ There are a few commands in tsdm:
 - `sync` <- sync the dotfiles to the correct locations. Accepts: nothing
 ## Installation
 You have 3 choices:
-- Build it yourself.We use[task](https://taskfile.dev/), instead of make
+- Build it yourself.We use [task](https://taskfile.dev/), instead of make. Just run `task` to see all avilable tasks.
 
 - Download a prebuild binary from github releases. 
 
