@@ -89,7 +89,6 @@ func syncFilesInternal(path string, file os.FileInfo, err error) error {
 	}
 	fileName := filesParsed[path].Name
 	fileLoc := filesParsed[path].Location
-	fmt.Println(fileName)
 	if fileName != "" || fileLoc != "" {
 		fmt.Println("Copying", fileName, "to", fileLoc)
 		fileLoc = strings.Replace(fileLoc, "~", UserHomeDir, -1)
