@@ -50,7 +50,8 @@ You have 3 choices:
 
 - Download a prebuild binary from github releases. 
 
-- or run `go install tsdm@[version]` from the command line , where `[version]` is the released version
+- or run `go install tsdm@[version]` from the command line , where `[version]` is the released version , ex: `go install tsdm@0.1`
+
 ## Licence
 
 [MIT](https://github.com/Pandademic/tsdm/blob/main/LICENSE)
