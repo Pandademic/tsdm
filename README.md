@@ -42,7 +42,8 @@ There are a few commands in tsdm:
 - `-v` <- show the tsdm version. Accepts: nothing
 - `version` <- show the tsdm version. Accepts: nothing
 - `update` <- run a git pull on the current dotfiles. Accepts: nothing
-- `get` <- get a new set of dotfiles , replacing the old one.Accepts: A URL including https.Ex:`https://github.com/pandademic/tsdm-example`
+- `get` <- get a new set of dotfiles , replacing the old one.Accepts: A URL including the protocol(https)
+Ex: `https://github.com/pandademic/tsdm-example`
 - `sync` <- sync the dotfiles to the correct locations. Accepts: nothing
 ## Installation
 You have 3 choices:
