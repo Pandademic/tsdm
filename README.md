@@ -1,9 +1,11 @@
-# tsdm
+<h1 align="center">tsdm
+
 [![Go Report Card](https://goreportcard.com/badge/github.com/pandademic/tsdm)](https://goreportcard.com/report/github.com/pandademic/tsdm)
 ![Lines of code](https://img.shields.io/tokei/lines/github/pandademic/tsdm)
+<p>(The Simple Dotfile Manager)</p>
+<h1>
 
 
-The Simple Dotfile Manager. 
 
 ## Architecture
 
