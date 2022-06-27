@@ -3,6 +3,10 @@
 
 The Simple Dotfile Manager. 
 
+Note that this branch *tend's to be* stable , and most development(exculding some fixes) is done on [next](https://github.com/Pandademic/tsdm/tree/next).
+
+For release's , `next` merged into master
+
 ## Architecture
 
 Tsdm manages your dotfiles without symlinks , like so:
