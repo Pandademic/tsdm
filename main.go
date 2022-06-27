@@ -22,20 +22,8 @@ var (
 )
 
 func setupDirs() {
-	doesDirExist, err := os.Stat(UserTsdmDir)
-	luve.Luve(doesDirExist)
-	if os.IsNotExist(err) {
-		if err := os.Mkdir(UserTsdmDir, os.ModePerm); err != nil {
-			fmt.Println("error creating directorys")
-			luve.Luve(err)
-			os.Exit(1)
-		} else {
-			fmt.Println("Success!")
-		}
-	} else {
-		fmt.Println("Directory already exists!")
-		os.Exit(1)
-	}
+	fmt.Println("! 'setup' is depreacated and will be removed in v0.3 !")
+	os.Exit(1)
 }
 func getRepo() {
 	cloneDir := UserTsdmDir + string(os.PathSeparator) + "dotfile-repo"
