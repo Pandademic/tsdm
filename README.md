@@ -11,18 +11,8 @@ For release's , `next` merged into master
 
 Tsdm manages your dotfiles without symlinks , like so:
 
-```
-You pull dotfiles from git(one set at a time)
-|
-|
-|
-They are stored in your .tsdm directory ----------> you sync them , when they are copied to the specifed locations
-                                                    |
-                                                    |
-                                                    |
-                                                    you run update , where they are git pulled ---------> you repeat
+[![architecture svg](assets/architecture.svg)](assets/architecture.svg)
 
-```
 
 You configure how tsdm manages your dotfiles , with a `tsdmrc.yml` file in your dotfile repo.
 
