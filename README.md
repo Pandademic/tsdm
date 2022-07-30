@@ -49,8 +49,6 @@ You have 3 choices:
 
 - or run `go install tsdm@[version]` from the command line , where `[version]` is the released version , ex: `go install tsdm@0.1`
 
-**If your building from source , do note that this branch(`master`) tends to be stable , and the `next` branch is where the development for the next release is done. Though, bugfixes will be merged from both.There is no guarntee of  stability on `next`
-
 ## Licence
 
 [MIT](https://github.com/Pandademic/tsdm/blob/main/LICENSE)
