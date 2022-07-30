@@ -6,23 +6,12 @@
 <h1>
 
 
-
 ## Architecture
 
 Tsdm manages your dotfiles without symlinks , like so:
 
-```
-You pull dotfiles from git(one set at a time)
-|
-|
-|
-They are stored in your .tsdm directory ----------> you sync them , when they are copied to the specifed locations
-                                                    |
-                                                    |
-                                                    |
-                                                    you run update , where they are git pulled ---------> you repeat
+[![architecture svg](assets/architecture.svg)](assets/architecture.svg)
 
-```
 
 You configure how tsdm manages your dotfiles , with a `tsdmrc.yml` file in your dotfile repo.
 
@@ -39,6 +28,9 @@ windows: # OS block. The following instructions will only be executed on this OS
 # etc. OS blocks
 
 ```
+
+for a real world example , check [my dotfiles](https://github.com/pandademic/dotfiles).
+
 ## Commands
 There are a few commands in tsdm:
 - `-h` <- show help. Accepts: nothing
@@ -52,10 +44,12 @@ Ex: `https://github.com/pandademic/tsdm-example`
 ## Installation
 You have 3 choices:
 - Build it yourself.We use [task](https://taskfile.dev/), instead of make. Just run `task` to see all avilable tasks.
-
+  
 - Download a prebuild binary from github releases. 
 
 - or run `go install tsdm@[version]` from the command line , where `[version]` is the released version , ex: `go install tsdm@0.1`
+
+**If your building from source , do note that this branch(`master`) tends to be stable , and the `next` branch is where the development for the next release is done. Though, bugfixes will be merged from both.There is no guarntee of  stability on `next`
 
 ## Licence
 
