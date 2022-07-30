@@ -6,11 +6,6 @@
 <h1>
 
 
-
-Note that this branch *tend's to be* stable , and most development(exculding some fixes) is done on [next](https://github.com/Pandademic/tsdm/tree/next).
-
-For release's , `next` merged into master
-
 ## Architecture
 
 Tsdm manages your dotfiles without symlinks , like so:
@@ -32,6 +27,8 @@ windows: # OS block. The following instructions will only be executed on this OS
         commentary: "this is optional , TSDM doesn't use it , its good for readability"
 # etc. OS blocks
 
+for a real world example , check [my dotfiles](https://github.com/pandademic/dotfiles).
+
 ```
 ## Commands
 There are a few commands in tsdm:
@@ -46,10 +43,12 @@ Ex: `https://github.com/pandademic/tsdm-example`
 ## Installation
 You have 3 choices:
 - Build it yourself.We use [task](https://taskfile.dev/), instead of make. Just run `task` to see all avilable tasks.
-
+  
 - Download a prebuild binary from github releases. 
 
 - or run `go install tsdm@[version]` from the command line , where `[version]` is the released version , ex: `go install tsdm@0.1`
+
+**If your building from source , do note that this branch(`master`) tends to be stable , and the `next` branch is where the development for the next release is done. Though, bugfixes will be merged from both.There is no guarntee of  stability on `next`
 
 ## Licence
 
