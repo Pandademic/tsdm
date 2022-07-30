@@ -27,9 +27,10 @@ windows: # OS block. The following instructions will only be executed on this OS
         commentary: "this is optional , TSDM doesn't use it , its good for readability"
 # etc. OS blocks
 
+```
+
 for a real world example , check [my dotfiles](https://github.com/pandademic/dotfiles).
 
-```
 ## Commands
 There are a few commands in tsdm:
 - `-h` <- show help. Accepts: nothing
